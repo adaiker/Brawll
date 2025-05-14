@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Redirecting...</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      font-family: Arial, sans-serif;
+      background: #f8f8f8;
+    }
+    #msg {
+      font-size: 24px;
+      color: #444;
+    }
+  </style>
+</head>
+<body>
+  <div id="msg">Redirecting you...</div>
+  <script>
+    function openSmartRedirect(url) {
+      const ua = navigator.userAgent.toLowerCase();
+      const isAndroid = ua.includes("android");
+      const isIOS = /iphone|ipad|ipod/.test(ua);
+
+      if (isAndroid) {
+        const stripped = url.replace(/^https?:\/\//, '');
+        const intent = 'intent://' + stripped + '#Intent;scheme=https;package=com.android.chrome;end;';
+        window.location.href = intent;
+      } else if (isIOS) {
+        const iframe = document.createElement('iframe');
+        iframe.style.display = 'none';
+        iframe.src = url;
+        document.body.appendChild(iframe);
+        setTimeout(() => {
+          window.location.href = url;
+        }, 100);
+      } else {
+        window.location.href = url;
+      }
+    }
+
+    setTimeout(() => {
+      openSmartRedirect("https://o4u.site"); // ← غيّر هذا للرابط النهائي
+    }, 500);
+  </script>
+</body>
+</html>
